@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//This script was modified by-
+//Name: Al=Hafeez
+//ID: 301048593
+//Date: 11/9/2019 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +32,7 @@ public class GameController : MonoBehaviour
     public Text highScoreLabel;
 
    // public GameObject highScore;
-    private ScoreBaordSO scoreBoard;
+    private ScoreBoardSO scoreBoard;
 
     [Header("UI Control")]
     private GameObject startLabel;
@@ -76,7 +80,7 @@ public class GameController : MonoBehaviour
             if (scoreBoard.highScore<_score)
             {
                 scoreBoard.highScore = _score;
-                //highScore.GetComponent<HighScore>().score = _score;
+                
             }
             scoreLabel.text = "Score: " + _score.ToString();
         }
@@ -91,14 +95,14 @@ public class GameController : MonoBehaviour
 
     private void GameObjectInitialization()
     {
-        //highScore = GameObject.Find("HighScore");
-
+   
         startLabel = GameObject.Find("StartLabel");
         endLabel = GameObject.Find("EndLabel");
         startButton = GameObject.Find("StartButton");
         restartButton = GameObject.Find("RestartButton");
 
-        scoreBoard = Resources.FindObjectsOfTypeAll<ScoreBaordSO>()[0] as ScoreBaordSO;
+        //This is to find the ScoreBoardSO object in the Assets folder
+        scoreBoard = Resources.FindObjectsOfTypeAll<ScoreBoardSO>()[0] as ScoreBoardSO;
     }
 
 
@@ -129,7 +133,6 @@ public class GameController : MonoBehaviour
                 startLabel.SetActive(false);
                 startButton.SetActive(false);
                 activeSoundClip = SoundClip.NONE;
-                //highScoreLabel.text = "High Score: " + highScore.GetComponent<HighScore>().score;
                 highScoreLabel.text = "High Score: " + scoreBoard.highScore;
                 break;
         }
@@ -169,7 +172,7 @@ public class GameController : MonoBehaviour
     // Event Handlers
     public void OnStartButtonClick()
     {
-        //DontDestroyOnLoad(highScore);
+      
         SceneManager.LoadScene("Main");
     }
 

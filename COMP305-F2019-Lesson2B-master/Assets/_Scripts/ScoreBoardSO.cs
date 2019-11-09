@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName ="ScoreBoardSO",menuName ="Game/ScoreBoard")]
 [System.Serializable]
-public class ScoreBaordSO : ScriptableObject
+public class ScoreBoardSO : ScriptableObject
 {
     public int score;
     public int lives;
