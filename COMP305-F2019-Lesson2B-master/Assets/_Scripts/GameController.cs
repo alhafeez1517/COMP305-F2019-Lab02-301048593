@@ -59,14 +59,15 @@ public class GameController : MonoBehaviour
         set
         {
             _lives = value;
-            if(_lives < 1)
+            scoreBoard.lives = _lives;
+            if (_lives < 1)
             {
                 
                 SceneManager.LoadScene("End");
             }
             else
             {
-                livesLabel.text = "Lives: " + _lives.ToString();
+                livesLabel.text = "Lives: " + scoreBoard.lives;
             }
            
         }
@@ -82,15 +83,17 @@ public class GameController : MonoBehaviour
         set
         {
             _score = value;
+            scoreBoard.score = _score;
 
-            
+
+
 
             if (scoreBoard.highScore<_score)
             {
                 scoreBoard.highScore = _score;
                 
             }
-            scoreLabel.text = "Score: " + _score.ToString();
+            scoreLabel.text = "Score: " + scoreBoard.score;
         }
     }
 
@@ -110,53 +113,25 @@ public class GameController : MonoBehaviour
         startButton = GameObject.Find("StartButton");
         restartButton = GameObject.Find("RestartButton");
 
-        //This is to find the ScoreBoardSO object in the Assets folder
+        //This is to find the ScoreBoardSO object in the Assets folder(not anymore)
 
-        scoreBoard = Resources.FindObjectsOfTypeAll<ScoreBoardSO>()[0] as ScoreBoardSO;
-        sceneSettings = Resources.FindObjectsOfTypeAll<SceneSettings>().ToList();
+        //scoreBoard = Resources.FindObjectsOfTypeAll<ScoreBoardSO>()[0] as ScoreBoardSO;
+       // sceneSettings = Resources.FindObjectsOfTypeAll<SceneSettings>().ToList();
      
     }
 
 
     private void SceneConfiguration()
     {
-        Debug.Log((SceneOrder)Enum.Parse(typeof(SceneOrder), SceneManager.GetActiveScene().name.ToUpper()));
+       
 
-        IEnumerable<SceneSettings> sceneQuery;
-
-        switch (SceneManager.GetActiveScene().name)
-        {
-            case "Start":
-
-                 sceneQuery = from settings in sceneSettings
-                                 where settings.sceneOrder == SceneOrder.START
+       var sceneQuery=from settings in sceneSettings
+                                 where settings.sceneOrder == (SceneOrder)Enum.Parse(typeof(SceneOrder), 
+                                 SceneManager.GetActiveScene().name.ToUpper())
                                  select settings;
 
-                activeSceneSettings = sceneQuery.ToList()[0];
-
-                break;
-
-            case "Main":
-
-                 sceneQuery = from settings in sceneSettings
-                                 where settings.sceneOrder == SceneOrder.MAIN
-                                 select settings;
-
-                activeSceneSettings = sceneQuery.ToList()[0];
-          
-                break;
-
-            case "End":
-
-                sceneQuery = from settings in sceneSettings
-                             where settings.sceneOrder == SceneOrder.END
-                             select settings;
-
-                activeSceneSettings = sceneQuery.ToList()[0];
-
-                highScoreLabel.text = "High Score: " + scoreBoard.highScore;
-                break;
-        }
+ activeSceneSettings = sceneQuery.ToList()[0];
+   
 
         {
             scoreLabel.enabled = activeSceneSettings.scoreLabelEnabled;
@@ -167,11 +142,19 @@ public class GameController : MonoBehaviour
             startButton.SetActive(activeSceneSettings.startButtonActive);
             restartButton.SetActive(activeSceneSettings.restartButtonActive);
             activeSoundClip = activeSceneSettings.activeSoundClip;
+            highScoreLabel.text = "High Score: " + scoreBoard.highScore;
+            scoreLabel.text = "Score: " + scoreBoard.score;
+            livesLabel.text = "Lives: " + scoreBoard.lives;
 
         }
 
-        Lives = 5;
-        Score = 0;
+        if (activeSceneSettings.sceneOrder == SceneOrder.MAIN)
+        {
+            Lives = 5;
+            Score = 0;
+        }
+       
+     
 
 
         if ((activeSoundClip != SoundClip.NONE) && (activeSoundClip != SoundClip.NUM_OF_CLIPS))
@@ -194,12 +177,6 @@ public class GameController : MonoBehaviour
         }
 
         Instantiate(island);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     // Event Handlers
