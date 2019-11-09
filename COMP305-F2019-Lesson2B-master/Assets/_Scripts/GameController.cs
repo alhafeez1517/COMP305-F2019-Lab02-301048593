@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class GameController : MonoBehaviour
     public Text highScoreLabel;
 
     [Header("Game Settings")]
-    private ScoreBoardSO scoreBoard;
+    public ScoreBoardSO scoreBoard;
 
     [Header("Scene Settings")]
     public List<SceneSettings> sceneSettings;
@@ -110,6 +111,7 @@ public class GameController : MonoBehaviour
         restartButton = GameObject.Find("RestartButton");
 
         //This is to find the ScoreBoardSO object in the Assets folder
+
         scoreBoard = Resources.FindObjectsOfTypeAll<ScoreBoardSO>()[0] as ScoreBoardSO;
         sceneSettings = Resources.FindObjectsOfTypeAll<SceneSettings>().ToList();
      
@@ -118,7 +120,7 @@ public class GameController : MonoBehaviour
 
     private void SceneConfiguration()
     {
-
+        Debug.Log((SceneOrder)Enum.Parse(typeof(SceneOrder), SceneManager.GetActiveScene().name.ToUpper()));
 
         IEnumerable<SceneSettings> sceneQuery;
 
@@ -132,46 +134,26 @@ public class GameController : MonoBehaviour
 
                 activeSceneSettings = sceneQuery.ToList()[0];
 
-   
-
-
-
-                //scoreLabel.enabled = false;
-                //livesLabel.enabled = false;
-                //highScoreLabel.enabled = false;
-                //endLabel.SetActive(false);
-                //restartButton.SetActive(false);
-                //activeSoundClip = SoundClip.NONE;
                 break;
 
             case "Main":
 
                  sceneQuery = from settings in sceneSettings
-                                 where settings.sceneOrder == SceneOrder.START
+                                 where settings.sceneOrder == SceneOrder.MAIN
                                  select settings;
 
                 activeSceneSettings = sceneQuery.ToList()[0];
-
-                //highScoreLabel.enabled = false;
-                //startLabel.SetActive(false);
-                //startButton.SetActive(false);
-                //endLabel.SetActive(false);
-                //restartButton.SetActive(false);
-                //activeSoundClip = SoundClip.ENGINE;
+          
                 break;
+
             case "End":
 
                 sceneQuery = from settings in sceneSettings
-                             where settings.sceneOrder == SceneOrder.START
+                             where settings.sceneOrder == SceneOrder.END
                              select settings;
 
                 activeSceneSettings = sceneQuery.ToList()[0];
 
-                //scoreLabel.enabled = false;
-                //livesLabel.enabled = false;
-                //startLabel.SetActive(false);
-                //startButton.SetActive(false);
-                //activeSoundClip = SoundClip.NONE;
                 highScoreLabel.text = "High Score: " + scoreBoard.highScore;
                 break;
         }

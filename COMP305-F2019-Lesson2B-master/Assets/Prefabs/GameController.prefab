@@ -348,4 +348,8 @@ MonoBehaviour:
   livesLabel: {fileID: 0}
   scoreLabel: {fileID: 0}
   highScoreLabel: {fileID: 0}
-  sceneSettings: []
+  scoreBoard: {fileID: 0}
+  sceneSettings:
+  - {fileID: 11400000, guid: d39c3ad71a93b7745aa24d3860ab2aed, type: 2}
+  - {fileID: 11400000, guid: d631f81ba06052747bbf6b2a2af59f32, type: 2}
+  - {fileID: 11400000, guid: 5beb1def7207af04c911a858a78dada9, type: 2}

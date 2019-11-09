@@ -16,8 +16,8 @@ MonoBehaviour:
   activeSoundClip: 0
   scoreLabelEnabled: 1
   livesLabelEnabled: 1
-  highScoreLabelEnabled: 0
   startLabelActive: 0
+  highScoreLabelEnabled: 0
+  endLabelActive: 0
   startButtonActive: 0
   restartButtonActive: 0
-  endLabelActive: 0
